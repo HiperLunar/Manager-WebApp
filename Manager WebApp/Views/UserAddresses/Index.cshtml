@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Manager_WebApp.Models.UserAddress>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address.Information)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { item.UserID, item.AddressID}) |
+                @Html.ActionLink("Details", "Details", new { item.UserID, item.AddressID }) |
+                @Html.ActionLink("Delete", "Delete", new { item.UserID, item.AddressID })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

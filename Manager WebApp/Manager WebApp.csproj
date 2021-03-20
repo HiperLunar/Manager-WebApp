@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>Manager_WebApp</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Views\UserAddresses\**" />
+    <Content Remove="Views\UserAddresses\**" />
+    <EmbeddedResource Remove="Views\UserAddresses\**" />
+    <None Remove="Views\UserAddresses\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20210318155611_initial.cs" />
+    <Compile Remove="Migrations\20210318155611_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318160351_initial.cs" />
+    <Compile Remove="Migrations\20210318160351_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318160526_initial.cs" />
+    <Compile Remove="Migrations\20210318160526_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318160911_initial.cs" />
+    <Compile Remove="Migrations\20210318160911_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318170726_initial.cs" />
+    <Compile Remove="Migrations\20210318170726_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318170814_initial.cs" />
+    <Compile Remove="Migrations\20210318170814_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318172202_initial.cs" />
+    <Compile Remove="Migrations\20210318172202_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318183400_initial.cs" />
+    <Compile Remove="Migrations\20210318183400_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318230136_initial.cs" />
+    <Compile Remove="Migrations\20210318230136_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210318230708_initial.cs" />
+    <Compile Remove="Migrations\20210318230708_initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Views\Users\EditAddress.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.13" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.13">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
+  </ItemGroup>
+
+</Project>

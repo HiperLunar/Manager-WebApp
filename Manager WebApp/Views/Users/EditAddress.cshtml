@@ -1,0 +1,63 @@
+﻿
+@{ 
+    ViewData["Tittle"] = "Edit addresses";
+}
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<h1>Add Addresses</h1>
+
+<div class="col-4 float-left">
+    <table class="table" id="userAddress">
+        <thead>
+            <tr>
+                <th>Information</th>
+                <th>IsCommercial</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (ICollection<UserAddress>) ViewBag.userAddress)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Address.Information)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Address.IsCommercial)</td>
+                    <td><a href="javascript:void(0)"
+                           id="@item.AddressID"
+                           submit="remove">Remove</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="col-4 float-right">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Information</th>
+                <th>IsCommercial</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in (ICollection<Address>)ViewBag.addressList)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Information)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IsCommercial)</td>
+                    <td><a href="javascript:void(0)"
+                           id="@item.ID"
+                           submit="add">Add</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<script>
+    $("a[submit=add], a[submit=remove]").click(function (event) {
+        $.post("", {
+            'addressId': $(this).attr("id"),
+            'submit': $(this).attr("submit")
+        });
+        console.log("post");
+    });
+</script>

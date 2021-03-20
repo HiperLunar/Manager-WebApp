@@ -1,0 +1,65 @@
+﻿@model PaginatedList<Manager_WebApp.Models.Address>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Addresses</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="search" value="@ViewData["search"]" />
+            <input type="submit" value="Search" class="btn btn-default" />
+            | <a asp-action="Index">Reset filter</a>
+        </p>
+    </div>
+</form>
+<p>Result count: @Model.Count</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Information)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().IsCommercial)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Information)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsCommercial)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<a asp-route-sort="@ViewData["currentSort"]"
+   asp-route-page=@(Model.PageIndex -1)
+   asp-route-currentFilter="@ViewData["currentFilter"]"
+   class="btn btn-default @prevDisabled">Previous</a>
+<a asp-route-sort="@ViewData["currentSort"]"
+   asp-route-page=@(Model.PageIndex +1)
+   asp-route-currentFilter="@ViewData["currentFilter"]"
+   class="btn btn-default @nextDisabled">Next</a>

@@ -83,9 +83,19 @@ namespace Manager_WebApp.Controllers
                     _context.Add(address);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
-                } catch (DbUpdateException)
+                } catch (DbUpdateException ex)
                 {
-                    ModelState.AddModelError("", "Unexpected error.");
+                    if (ex.HResult == -2146233088)
+                    {
+                        ModelState.AddModelError("", @"Unable to save changes.
+                                                       Address already exists");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
+                    }
                 }
             }
             return View(address);
@@ -125,19 +135,22 @@ namespace Manager_WebApp.Controllers
                 {
                     _context.Update(address);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException ex)
                 {
-                    if (!AddressExists(address.ID))
+                    if (ex.HResult == -2146233088)
                     {
-                        return NotFound();
+                        ModelState.AddModelError("", @"Unable to save changes.
+                                                       Name already exists");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(address);
         }

@@ -57,14 +57,29 @@ namespace Manager_WebApp.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Description,UserID")] Department department)
+        public async Task<IActionResult> Create([Bind("Name,Description,UserID")] Department department)
         {
             if (ModelState.IsValid)
             {
-                department.ID = Guid.NewGuid();
-                _context.Add(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    _context.Add(department);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                } catch (DbUpdateException ex)
+                {
+                    if (ex.HResult == -2146233088)
+                    {
+                        ModelState.AddModelError("", @"Unable to save changes.
+                                                       Department already exists");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
+                    }
+                }
             }
             ViewData["UserID"] = new SelectList(_context.User, "ID", "Name", department.UserID);
             return View(department);
@@ -105,19 +120,22 @@ namespace Manager_WebApp.Controllers
                 {
                     _context.Update(department);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException ex)
                 {
-                    if (!DepartmentExists(department.ID))
+                    if (ex.HResult == -2146233088)
                     {
-                        return NotFound();
+                        ModelState.AddModelError("", @"Unable to save changes.
+                                                       Department already exists");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
             ViewData["UserID"] = new SelectList(_context.User, "ID", "Name", department.UserID);
             return View(department);

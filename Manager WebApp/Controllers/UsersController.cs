@@ -104,9 +104,19 @@ namespace Manager_WebApp.Controllers
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
-            } catch (DbUpdateException)
+            } catch (DbUpdateException ex)
             {
-                ModelState.AddModelError("", "Unexpected error.");
+                if (ex.HResult == -2146233088)
+                {
+                    ModelState.AddModelError("", @"Unable to save changes.
+                                                       User already exists");
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Unable to save changes. " +
+                        "Try again, and if the problem persists, " +
+                        "see your system administrator.");
+                }
             }
             return View(user);
         }
@@ -159,12 +169,19 @@ namespace Manager_WebApp.Controllers
                     var query = await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Details), new { id = user.ID });
                 }
-                catch (DbUpdateException /* ex */)
+                catch (DbUpdateException ex)
                 {
-                    //Log the error (uncomment ex variable name and write a log.)
-                    ModelState.AddModelError("", "Unable to save changes. " +
-                        "Try again, and if the problem persists, " +
-                        "see your system administrator.");
+                    if (ex.HResult == -2146233088)
+                    {
+                        ModelState.AddModelError("", @"Unable to save changes.
+                                                       User already exists");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Unable to save changes. " +
+                            "Try again, and if the problem persists, " +
+                            "see your system administrator.");
+                    }
                 }
             }
             UpdateUserAddresses(selectedAddresses, user);
